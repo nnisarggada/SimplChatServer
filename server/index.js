@@ -8,13 +8,11 @@ app.use(cors());
 
 const server = http.createServer(app);
 
-const users = {}
+const users = {};
 
-const io = new Server(server, {
-  cors: {
-    origin: "*",
-  }
-});
+const io = socketIO(server);
+
+io.origins('*:*');
 
 io.on('connection', (socket) =>{
   
