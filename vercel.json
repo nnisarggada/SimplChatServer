@@ -1,0 +1,14 @@
+{
+  "functions": {
+    "api": {
+      "memory": 512,
+      "maxDuration": 10
+    }
+  },
+  "routes": [
+    {
+      "src": "/socket.io/(.*)",
+      "dest": "index.js"
+    }
+  ]
+}
