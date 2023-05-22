@@ -6,6 +6,10 @@ const { Server } = require('socket.io');
 
 app.use(cors());
 
+app.get('/', (req, res) => {
+  res.sendFile('index.html');
+});
+
 const server = http.createServer(app);
 
 const users = {};
