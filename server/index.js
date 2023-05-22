@@ -1,22 +1,14 @@
 const express = require('express');
-const app = express();
 const http = require('http');
+const socketIO = require('socket.io');
 const cors = require('cors');
-const { Server } = require('socket.io');
 
-app.use(cors());
-
-app.get('/', (req, res) => {
-  res.sendFile('index.html');
-});
-
+const app = express();
 const server = http.createServer(app);
-
-const users = {};
-
 const io = socketIO(server);
 
-io.origins('*:*');
+// Enable CORS with all origins allowed
+app.use(cors());
 
 io.on('connection', (socket) =>{
   
@@ -36,6 +28,7 @@ io.on('connection', (socket) =>{
   });
 });
 
-server.listen(3001, ()=>{
-  console.log("SERVER RUNNING");
-})
+const port = process.env.PORT || 3001;
+server.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
+});
