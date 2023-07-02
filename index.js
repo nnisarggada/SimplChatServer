@@ -1,19 +1,18 @@
 const express = require("express");
 const app = express();
-const http = require("http");
+const https = require("https");
+const fs = require("fs");
 const cors = require("cors");
 const { Server } = require("socket.io");
 
+const options = {
+  key: fs.readFileSync("/etc/letsencrypt/live/nnisarg.in-0001/privkey.pem"), // Path to your private key file
+  cert: fs.readFileSync("/etc/letsencrypt/live/nnisarg.in-0001/fullchain.pem"), // Path to your certificate file
+};
+
 app.use(cors());
 
-app.get("/wakeup", function (request, response) {
-  console.log("i'm awake");
-  response.send("i'm awake");
-});
-
-const server = http.createServer(app);
-
-const users = {};
+const server = https.createServer(options, app);
 
 const io = new Server(server, {
   cors: {
@@ -39,6 +38,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(3000, () => {
+server.listen(443, () => {
   console.log("SERVER RUNNING");
 });
