@@ -1,18 +1,12 @@
 const express = require("express");
 const app = express();
-const https = require("https");
-const fs = require("fs");
+const http = require("http");
 const cors = require("cors");
 const { Server } = require("socket.io");
 
-const options = {
-  key: fs.readFileSync("/etc/letsencrypt/live/nnisarg.in-0001/privkey.pem"), // Path to your private key file
-  cert: fs.readFileSync("/etc/letsencrypt/live/nnisarg.in-0001/fullchain.pem"), // Path to your certificate file
-};
-
 app.use(cors());
 
-const server = https.createServer(options, app);
+const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
@@ -38,6 +32,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(443, () => {
+server.listen(3000, "127.0.0.1", () => {
   console.log("SERVER RUNNING");
 });
